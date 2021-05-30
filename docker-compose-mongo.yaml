@@ -1,0 +1,32 @@
+version: "3"
+services:
+  mongo0:
+    hostname: mongo0
+    container_name: primary
+    image: mongo
+    volumes:
+       - /apps/mongodb/primary:/data
+    ports:
+      - 2000:27017
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongo1:
+    hostname: mongo1
+    container_name: secondary_one
+    image: mongo
+    volumes:
+       - /apps/mongodb/secondary_one:/data
+    ports:
+      - 2001:27017
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+  mongo2:
+    hostname: mongo2
+    container_name: secondary_two
+    image: mongo
+    volumes:
+       - /apps/mongodb/secondary_two:/data
+    ports:
+      - 2002:27017
+    restart: always
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
