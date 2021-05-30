@@ -1,0 +1,47 @@
+version: '3.5'
+services:
+ api:
+  build: trashbin-geotagging-api
+  image: geotag-api
+  hostname: geotag.iotroncs.com_api
+  container_name: geotag.iotroncs.com_api
+  restart: always
+  volumes:
+   - /var/apps/files:/usr/src/app/files
+  ports:
+   - 1000:3000
+  networks:
+   apps:
+    ipv4_address: 172.11.0.4
+
+ frontend:
+  build: trashbin-geotagging
+  image: geotag-frontend
+  hostname: geotag.iotroncs.com
+  container_name: geotag.iotroncs.com
+  restart: always
+  ports:
+   - 1001:80
+  networks:
+   apps:
+    ipv4_address: 172.11.0.5
+
+ redis:
+  build: trashbin-geotagging-redis
+  image: geotag-redis
+  hostname: redis.iotroncs.com
+  container_name: redis.iotroncs.com
+  restart: always
+  ports:
+   - 1002:6379
+  networks:
+   apps:
+    ipv4_address: 172.11.0.7
+
+networks:
+ apps:
+  name: geotag-app-network
+  driver: overlay
+  ipam:
+   config:
+    - subnet: 171.11.0.0/16
